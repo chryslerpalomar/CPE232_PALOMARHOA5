@@ -1,66 +1,11 @@
-#- hosts: all
-#  become: true
-#  tasks:
-#
-#  - name: update repository index
-#    apt:
-#      update_cache: yes
-#    when: ansible_distribution in ["Debian", "Ubuntu"]
-#
-#  - name: install apache2 package
-#    apt:
-#      name: apache2
-#      state: latest
-#    when: ansible_distribution == "Ubuntu"
-#
-#  - name: add PHP support for apache
-#    apt:
-#      name: libapache2-mod-php
-#      state: latest
-#    when: ansible_distribution == "Ubuntu"
-#
-#  - name: update repository index
-#    yum:
-#      name: "*"
-#      update_cache: yes
-#      state: latest
-#    when: ansible_distribution == "CentOS"
-#
-#  - name: install apache2 package
-#    dnf:
-#      name: httpd
-#      state: latest
-#    when: ansible_distribution == "CentOS"
-#
-#  - name: add PHP support for apache
-#    dnf:
-#      name: php
-#      state: latest
-#    when: ansible_distribution == "CentOS"
-#
-
-
-#---------------------------------------------------------------------------------
-
+---
 - hosts: all
   become: true
   tasks:
 
-  - name: update repository index, install apache 2package and php packages for Ubuntu
-    apt:
+  - name: install apache and php
+    package:
       name:
-        - apache2
-        - libapache2-mod-php
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
       state: latest
-      update_cache: yes
-    when: ansible_distribution == "Ubuntu"
-
-  - name: update repository index, install apache package and php packages for CentOS
-    yum:
-      name:
-        - "*"
-        - httpd
-        - php
-      update_cache: yes
-      state: latest
-    when: ansible_distribution == "CentOS"
